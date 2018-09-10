@@ -1,4 +1,4 @@
-<?php // line 1 added to enable color highlight
+<?php 
     session_start();
     require_once "pdo.php" ;
     require_once "functions.php";
@@ -140,6 +140,12 @@
                         <input type="text" class="form-control" name="img"/>
                 </div>
                 <div class="form-group">
+                        <label>Education: </label>
+                        <input type="submit" class="btn btn-default"  id="addedu" value = "+"/>
+                </div>
+                <div id= "education_fields" class= "form-group"></div>
+
+                <div class="form-group">
                         <label>Positions: </label>
                         <input type="submit" class="btn btn-default"  id="addpos" value = "+"/>
                 </div>
@@ -155,6 +161,7 @@
 <script>
     $('#forum').height($(window).height() + "px");
     var count_pos = 1;
+    var count_edu = 1 ;
     $(document).ready(function(){
     $("#addpos").click (function(event){
         event.preventDefault();
@@ -174,9 +181,33 @@
 
             count_pos+=1;
     });
+    $("#addedu").click (function(event){
+        event.preventDefault();
+        if(count_edu > 9){
+            alert("Maximum of nine enteries exceeded!");
+            return;
+        }
+        var source = $("#edu_template").html();
+        $("#education_fields").append(source.replace(/@COUNT@/g,count_edu));
+
+            count_edu+=1;
+    /*    $('.school').autocomplete({
+                source : "school.php"
+            });*/
+    });
+   /* $('.school').autocomplete({
+                source : "school.php"
+            });*/
 
     });
 
+</script>
+<script id= "edu_template" type = "text">
+    <div id = "edu@COUNT@">
+            <p>Year: <input type="text" class="form-control" name="edu_year@COUNT@" value="" /> 
+            <p>School: <input type="text" class="form-control" name="edu_school@COUNT@" value="" class = "school"/>
+            <input type="button" class="btn btn-danger" value="-" onclick="$('#edu@COUNT@').remove();return false;"></p> 
+    </div>
 </script>
     </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

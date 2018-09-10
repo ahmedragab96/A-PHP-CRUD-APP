@@ -35,9 +35,8 @@ function validatepos() {
     }
     return true;
   }
-    
 
-function addpos ($pdo , $profile_id){
+  function addedu ($pdo , $profile_id){
     $rank = 1;
     for($i=1 ; $i <= 9 ; $i+=1)
         {
@@ -60,6 +59,52 @@ function addpos ($pdo , $profile_id){
             $rank++;
         }
 }
+
+  
+  function validateeducation() {
+    for($i=1; $i<=9; $i++) {
+      if ( ! isset($_POST['edu_year'.$i]) ) continue;
+      if ( ! isset($_POST['edu_school'.$i]) ) continue;
+  
+      $year = $_POST['edu_year'.$i];
+      $school = $_POST['edu_school'.$i];
+  
+      if ( strlen($year) == 0 || strlen($school) == 0 ) {
+        return "All fields are required";
+      }
+  
+      if ( ! is_numeric($year) ) {
+        return "Position year must be numeric";
+      }
+    }
+    return true;
+  }
+
+  function addedu ($pdo , $profile_id){
+    $rank = 1;
+    for($i=1 ; $i <= 9 ; $i+=1)
+        {
+            if( ! isset($_POST['year'.$i]) ) continue;
+            if( ! isset($_POST['desc'.$i]) ) continue;
+
+            $year = $_POST['year'.$i];
+            $desc = $_POST['desc'.$i];
+
+            $stmt = $pdo->prepare('INSERT INTO position
+            (profile_id, rank, year, description)
+            VALUES ( :pid, :rank , :year, :desc)');
+
+            $stmt->execute(array(
+            ':pid' => $profile_id,
+            ':rank' => $rank,
+            ':year' => $year,
+            ':desc' => $desc ));
+
+            $rank++;
+        }
+}
+
+
 
 function checkRemoteFile($url)
     {
