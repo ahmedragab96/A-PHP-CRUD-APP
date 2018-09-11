@@ -31,7 +31,13 @@
                     header("Location: add.php");
                     return;
                 }
-            
+            $vali = validateeducation();
+            if (is_string($vali))
+                {
+                    $_SESSION['add_failure'] = $vali ;
+                    header("Location: add.php");
+                    return;
+                }            
 
         if (strlen($_POST['img']) > 0 )
             {
@@ -53,6 +59,7 @@
                         $profile_id = $pdo->lastInsertId();
                         
                         addpos($pdo , $profile_id);
+                        addedu ($pdo , $profile_id);
 
 
                         $_SESSION['success'] = "Profile Added";
@@ -84,6 +91,7 @@
                         $profile_id = $pdo->lastInsertId();
                         
                         addpos($pdo , $profile_id);
+                        addedu ($pdo , $profile_id);
 
                         $_SESSION['success'] = "Profile Added";
                         header("Location: index.php");
@@ -102,9 +110,6 @@
     <?php require_once "header.php"; ?>
 </head>
 <body>
-
-
-
 <div class="container" style = "width: 70%;" id = "forum"> 
 <h1>Adding PROFILE FOR <?= htmlentities($_SESSION['email'])?></h1>
 <?php 

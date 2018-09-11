@@ -36,7 +36,7 @@ function validatepos() {
     return true;
   }
 
-  function addedu ($pdo , $profile_id){
+  function addpos ($pdo , $profile_id){
     $rank = 1;
     for($i=1 ; $i <= 9 ; $i+=1)
         {
@@ -74,7 +74,7 @@ function validatepos() {
       }
   
       if ( ! is_numeric($year) ) {
-        return "Position year must be numeric";
+        return "Education year must be numeric";
       }
     }
     return true;
@@ -84,21 +84,53 @@ function validatepos() {
     $rank = 1;
     for($i=1 ; $i <= 9 ; $i+=1)
         {
-            if( ! isset($_POST['year'.$i]) ) continue;
-            if( ! isset($_POST['desc'.$i]) ) continue;
+            if( ! isset($_POST['edu_year'.$i]) ) continue;
+            if( ! isset($_POST['edu_school'.$i]) ) continue;
 
-            $year = $_POST['year'.$i];
-            $desc = $_POST['desc'.$i];
+            $year = $_POST['edu_year'.$i];
+            $school = $_POST['edu_school'.$i];
 
-            $stmt = $pdo->prepare('INSERT INTO position
-            (profile_id, rank, year, description)
-            VALUES ( :pid, :rank , :year, :desc)');
+            $institution_id = false ;
+
+            $stmt = $pdo->prepare('SELECT * FROM institution
+            WHERE name = :name');
+
+            $stmt->execute(array(
+                ":name" => $school ));
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            {
+                $institution_id  =  $row['institution_id'];
+            }
+            if ( ! $institution_id)
+            {
+                $stmt = $pdo->prepare('INSERT INTO institution
+                 ( name)
+                VALUES ( :name)');
+
+                $stmt->execute(array(
+                ":name" => $school ));
+
+                $stmt = $pdo->prepare('SELECT * FROM institution
+                WHERE name = :name');
+
+                $stmt->execute(array(
+                    ":name" => $school ));
+
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $institution_id  =  $row['institution_id'];
+                }
+                }
+            $stmt = $pdo->prepare('INSERT INTO education
+            (profile_id, rank, year, institution_id)
+            VALUES ( :pid, :rank , :year, :iid)');
 
             $stmt->execute(array(
             ':pid' => $profile_id,
             ':rank' => $rank,
             ':year' => $year,
-            ':desc' => $desc ));
+            ':iid' => $institution_id ));
 
             $rank++;
         }
