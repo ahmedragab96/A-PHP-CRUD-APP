@@ -119,51 +119,59 @@
                     unset($_SESSION['add_failure']);
                 }
         ?>
-            <form method="POST">
-                <div class="form-group">
-                    <label>First Name: </label>
-                    <input type="text" class="form-control" name="first_name"/>
-                </div>
-                <div class="form-group">
-                        <label>Last Name: </label>
-                        <input type="text" class="form-control" name="last_name"/>
-                </div>
-                <div class="form-group">
-                        <label>Email: </label>
-                        <input type="email" class="form-control" name="email"/>
-                </div>
-                <div class="form-group">
-                        <label>Headline: </label>
-                        <input type="text" class="form-control" name="headline"/>
-                </div>
-                <div class="form-group">
-                        <label>Summary: </label>
-                        <textarea name="summary" class="form-control" rows="3" cols="50"></textarea>
-                </div>
-                <div class="form-group">
-                        <label>Image: </label>
-                        <input type="text" class="form-control" name="img"/>
-                </div>
-                <div class="form-group">
-                        <label>Education: </label>
-                        <input type="submit" class="btn btn-default"  id="addedu" value = "+"/>
-                </div>
-                <div id= "education_fields" class= "form-group"></div>
+        <form method="POST">
+            <div class="form-group">
+                <label>First Name: </label>
+                <input type="text" class="form-control" name="first_name"/>
+            </div>
+            <div class="form-group">
+                    <label>Last Name: </label>
+                    <input type="text" class="form-control" name="last_name"/>
+            </div>
+            <div class="form-group">
+                    <label>Email: </label>
+                    <input type="email" class="form-control" name="email"/>
+            </div>
+            <div class="form-group">
+                    <label>Headline: </label>
+                    <input type="text" class="form-control" name="headline"/>
+            </div>
+            <div class="form-group">
+                    <label>Summary: </label>
+                    <textarea name="summary" class="form-control" rows="3" cols="50"></textarea>
+            </div>
+            <div class="form-group">
+                    <label>Image: </label>
+                    <input type="text" class="form-control" name="img"/>
+            </div>
+            <div class="form-group">
+                    <label>Education: </label>
+                    <input type="submit" class="btn btn-default"  id="addedu" value = "+"/>
+            </div>
+            <div id= "education_fields" class= "form-group"></div>
 
-                <div class="form-group">
-                        <label>Positions: </label>
-                        <input type="submit" class="btn btn-default"  id="addpos" value = "+"/>
-                </div>
-                <div id= "position_fields" class= "form-group"></div>
+            <div class="form-group">
+                    <label>Positions: </label>
+                    <input type="submit" class="btn btn-default"  id="addpos" value = "+"/>
+            </div>
+            <div id= "position_fields" class= "form-group"></div>
 
-                <div class="form-group">
-                        <input type="submit" class="btn btn-success" value="Add" />
-                        <input type="submit" class="btn btn-success" value="Cancel"/>
-                </div>
+            <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="Add" />
+                    <input type="submit" class="btn btn-success" value="Cancel"/>
+            </div>
 
-            </form>
-
-<script>
+        </form>
+        <script id= "edu_template" type = "text">
+            <div id = "edu@COUNT@">
+                    <p>Year: <input type="text" class="form-control" name="edu_year@COUNT@" value="" /> 
+                    <p>School: <input type="text" class="form-control school" name="edu_school@COUNT@" value=""/>
+                    <input type="button" class="btn btn-danger" value="-" onclick="$('#edu@COUNT@').remove();return false;"></p> 
+            </div>
+        </script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>    
+<script type="text/javascript">
     $('#forum').height($(window).height() + "px");
     var count_pos = 1;
     var count_edu = 1 ;
@@ -196,26 +204,19 @@
         $("#education_fields").append(source.replace(/@COUNT@/g,count_edu));
 
             count_edu+=1;
-    /*    $('.school').autocomplete({
-                source : "school.php"
-            });*/
+        $('.school').autocomplete({
+                source : "school.php",
+                minLength: 1
+            });
     });
-   /* $('.school').autocomplete({
-                source : "school.php"
-            });*/
-
+    $('.school').autocomplete({
+                source : "school.php",
+                minLength: 1
+            });
     });
 
 </script>
-<script id= "edu_template" type = "text">
-    <div id = "edu@COUNT@">
-            <p>Year: <input type="text" class="form-control" name="edu_year@COUNT@" value="" /> 
-            <p>School: <input type="text" class="form-control" name="edu_school@COUNT@" value="" class = "school"/>
-            <input type="button" class="btn btn-danger" value="-" onclick="$('#edu@COUNT@').remove();return false;"></p> 
     </div>
-</script>
-    </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>
